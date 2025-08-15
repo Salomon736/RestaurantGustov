@@ -20,7 +20,7 @@ public class DishService
             return Result<object>.Failure(model.GetAllMessageErrors(), HttpStatusCode.BadRequest);
         
         if (await _dishRepository.IsNameDishDuplicate(model.Name, model.Id))
-            return Result<object>.Failure("Ya existe un plato con ese nombre", HttpStatusCode.Conflict);
+            return Result<object>.Failure("Ya existe un plato con ese nombre", HttpStatusCode.BadRequest);
 
         try
         {

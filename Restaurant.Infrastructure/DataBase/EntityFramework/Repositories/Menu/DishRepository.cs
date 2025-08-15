@@ -17,25 +17,29 @@ public class DishRepository : IDishRepository
 
     public async Task<DishModel> InsertAsync(DishModel model)
     {
-        var entity = model.ToEntity();
-        _context.Dish.Add(entity);
-        await _context.SaveChangesAsync();
-        return entity.ToModel();
+        if (model.Id == 0)
+        {
+            var entity = model.ToEntity();
+            _context.Dish.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity.ToModel();
+        }
+        else
+        {
+            var entity = await _context.Dish.FindAsync(model.Id);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException($"Dish con Id {model.Id} no existe.");
+            }
+            _context.Entry(entity).CurrentValues.SetValues(model.ToEntity());
+            await _context.SaveChangesAsync();
+            return entity.ToModel();
+        }
     }
 
-    public async Task<DishModel> UpdateAsync(DishModel model)
+    public Task<DishModel> UpdateAsync(DishModel model)
     {
-        var entity = await _context.Dish.FindAsync(model.Id);
-        if (entity == null)
-            throw new InvalidOperationException($"Plato con ID {model.Id} no encontrado");
-
-        entity.Name = model.Name;
-        entity.Description = model.Description;
-        entity.Image = model.Image;
-        entity.Price = model.Price;
-
-        await _context.SaveChangesAsync();
-        return entity.ToModel();
+        throw new NotImplementedException();
     }
 
     public async Task<bool> DeleteAsync(int id)

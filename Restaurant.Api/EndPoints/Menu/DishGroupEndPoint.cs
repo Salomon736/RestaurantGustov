@@ -18,6 +18,14 @@ public static class DishGroupEndPoint
             (DishService service, DishModel model) =>
                 service.SaveDish(model).ToApiResult()
         );
+        groupBuilder.MapPut(
+            "/{id:int}",
+            (int id, DishService service, DishModel model) =>
+            {
+                model.Id = id;
+                return service.SaveDish(model).ToApiResult();
+            }
+        );
 
         groupBuilder.MapGet(
             "/",
