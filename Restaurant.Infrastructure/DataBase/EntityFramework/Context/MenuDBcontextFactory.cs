@@ -13,7 +13,7 @@ public class MenuDBcontextFactory : IDesignTimeDbContextFactory<MenuDBcontext>
             .AddUserSecrets<MenuDBcontextFactory>()  
             .Build();
         
-        string connectionString = configuration["ConnectionStrings:remoteConnection"];
+        string connectionString = configuration["ConnectionStrings:LocalConnection"];
 
         if (string.IsNullOrEmpty(connectionString))
         {

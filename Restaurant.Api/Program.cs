@@ -1,3 +1,4 @@
+using Restaurant.Api.EndPoints.Menu;
 using Restaurant.Infrastructure.Ioc.DependencyInjection;
 using Restaurant.Api.Middleware;
 
@@ -36,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
-
+app.MapDishEndpoints();
 app.UseCors("CORSPolicy");
 app.UseMiddleware<MiddlewareException>();
 

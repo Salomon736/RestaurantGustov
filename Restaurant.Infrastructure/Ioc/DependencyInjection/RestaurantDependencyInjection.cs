@@ -15,7 +15,7 @@ public static class RestaurantDependencyInjection
 {
     public static IServiceCollection RegisterDataBase(this IServiceCollection collection, IConfiguration configuration)
     {
-        string connectionString = configuration["ConnectionStrings:remoteConnection"];
+        string connectionString = configuration["ConnectionStrings:LocalConnection"];
 
         collection.AddDbContext<MenuDBcontext>(options =>
             {
