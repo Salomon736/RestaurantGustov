@@ -16,11 +16,9 @@ public class DishService
 
     public async Task<Result<object>> SaveDish(DishModel model)
     {
-        // Validar modelo
         if (model.HasErrors())
             return Result<object>.Failure(model.GetAllMessageErrors(), HttpStatusCode.BadRequest);
-
-        // Validar duplicado de nombre
+        
         if (await _dishRepository.IsNameDishDuplicate(model.Name, model.Id))
             return Result<object>.Failure("Ya existe un plato con ese nombre", HttpStatusCode.Conflict);
 

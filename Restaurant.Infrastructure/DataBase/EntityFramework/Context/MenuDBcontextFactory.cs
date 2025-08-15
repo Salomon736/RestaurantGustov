@@ -8,20 +8,11 @@ public class MenuDBcontextFactory : IDesignTimeDbContextFactory<MenuDBcontext>
 {
     public MenuDBcontext CreateDbContext(string[] args)
     {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory()) 
-            .AddUserSecrets<MenuDBcontextFactory>()  
-            .Build();
-        
-        string connectionString = configuration["ConnectionStrings:LocalConnection"];
+        string connectionString = "Server=DESKTOP-8HBKT6U\\SQLEXPRESS;Database=restaurantGustov;User=sa;Password=12345678;TrustServerCertificate=true;";
 
-        if (string.IsNullOrEmpty(connectionString))
-        {
-            throw new ArgumentNullException(nameof(connectionString), "La cadena de conexión no puede ser nula ni estar vacía.");
-        }
-        
         var optionsBuilder = new DbContextOptionsBuilder<MenuDBcontext>();
         optionsBuilder.UseSqlServer(connectionString);
+
         return new MenuDBcontext(optionsBuilder.Options);
     }
     
