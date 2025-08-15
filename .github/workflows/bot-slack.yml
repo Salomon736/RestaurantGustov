@@ -1,0 +1,34 @@
+on:
+  pull_request:
+    branches:
+      - develop
+name: Slack Notification
+jobs:
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.Restaurant }}
+        SLACK_COLOR: good
+        SLACK_USERNAME: Backend Restaurant UAB
+        SLACK_TITLE: "PR a la espera de revisión"
+        SLACK_MSG_AUTHOR: ${{ github.actor }}
+
+        MSG_MINIMAL: true
+        SLACK_MESSAGE: 'Se ha creado un nuevo Pull Request para la rama dev. Revisa los cambios y aprueba si todo está correcto :rocket:. URL: ${{ github.event.pull_request.html_url }}'
+
+
+
+        SLACK_ICON: https://avatars.githubusercontent.com/u/178627740?s=200&v=4
+        SLACK_FOOTER: "Desarrollado por Restaurant"
+
+
+      with:
+        author_name: "Backend Restaurant"
+        fields: repo,message,commit,author,action,eventName
