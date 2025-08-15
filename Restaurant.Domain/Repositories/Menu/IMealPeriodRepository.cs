@@ -4,6 +4,6 @@ namespace Restaurant.Domain.Repositories.Menu;
 
 public interface IMealPeriodRepository : IGenericRepository<MealPeriodModel>
 {
-    Task<bool> IsMealTypeDuplicate(string mealType, int id);
+    Task<bool> IsMealTypeDuplicate(string nameMealPeriod, int id);
     Task<bool> HasTimeOverlap(TimeOnly startTime, TimeOnly endTime, int id);
 }

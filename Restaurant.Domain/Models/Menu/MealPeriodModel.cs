@@ -5,14 +5,14 @@ namespace Restaurant.Domain.Models.Menu;
 public class MealPeriodModel : TraceModel
 {
     public int Id { get;  set; }
-    public string Name { get; private set; }
+    public string NameMealPeriod { get; private set; }
     public TimeOnly  StartTime { get; private set; }
     public TimeOnly  EndTime { get; private set; }
     public string Color { get; private set; }
     [JsonConstructor]
     public MealPeriodModel(
         int id,
-        string name,
+        string nameMealPeriod,
         TimeOnly startTime,
         TimeOnly endTime,
         string color
@@ -21,18 +21,18 @@ public class MealPeriodModel : TraceModel
     {
         if (id < 0)
             AddError(new Exception("El ID no puede ser negativo"));
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(nameMealPeriod))
             AddError(new Exception("El nombre del periodo de comida es requerido"));
         if (startTime >= endTime)
             AddError(new Exception("Hora de inicio debe ser menor a hora de fin"));
-        else if (name.Length > 20)
+        else if (nameMealPeriod.Length > 20)
             AddError(new Exception("El nombre del periodo de comida no puede exceder 20 caracteres"));
-        else if (!IsValidText(name))
+        else if (!IsValidText(nameMealPeriod))
             AddError(new Exception("El nombre solo puede contener letras, números y espacios"));
         
         
         Id = id;
-        Name = name?.Trim();
+        NameMealPeriod = nameMealPeriod?.Trim();
         StartTime = startTime;
         EndTime = endTime;
         Color = color?.Trim();
