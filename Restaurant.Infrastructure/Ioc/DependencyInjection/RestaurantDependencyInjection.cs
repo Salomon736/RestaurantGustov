@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurant.Application.Services.Menu;
 using Restaurant.Domain.Repositories.Menu;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Context;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Repositories.Menu;
@@ -37,6 +38,7 @@ public static class RestaurantDependencyInjection
 
     public static IServiceCollection RegisterServices(this IServiceCollection collection)
     {
+        collection.AddTransient<DishService>();
         return collection;
     }
 
