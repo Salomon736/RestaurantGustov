@@ -1,14 +1,18 @@
 using Microsoft.EntityFrameworkCore;
+using Restaurant.Infrastructure.DataBase.EntityFramework.Context.Menu;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Entities;
+using Restaurant.Infrastructure.DataBase.EntityFramework.Entities.Menu;
 
 namespace Restaurant.Infrastructure.DataBase.EntityFramework.Context;
 
 public class MenuDBcontext:DbContext
 {
+    public DbSet<DishEntity> Dish { get; set; } 
     public MenuDBcontext(DbContextOptions<MenuDBcontext> options) : base(options) {}
    protected override void OnModelCreating(ModelBuilder entity)
     {
         base.OnModelCreating(entity);
+        entity.ApplyConfiguration(new DishConfiguration());
     }
    
     public override int SaveChanges()
