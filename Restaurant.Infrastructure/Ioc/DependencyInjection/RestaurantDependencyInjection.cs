@@ -40,6 +40,7 @@ public static class RestaurantDependencyInjection
     public static IServiceCollection RegisterServices(this IServiceCollection collection)
     {
         collection.AddTransient<DishService>();
+        collection.AddTransient<MealPeriodService>();
         return collection;
     }
 
