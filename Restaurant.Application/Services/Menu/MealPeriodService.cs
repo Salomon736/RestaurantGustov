@@ -21,8 +21,10 @@ public class MealPeriodService
 
         if (await _mealPeriodRepository.IsMealTypeDuplicate(model.NameMealPeriod, model.Id))
             return Result<object>.Failure("Ya existe un período de comida con ese tipo", HttpStatusCode.BadRequest);
+        if (TimeSpan.TryParse(model.StartTime, out var startTimeSpan) && 
+            TimeSpan.TryParse(model.EndTime, out var endTimeSpan))
 
-        if (await _mealPeriodRepository.HasTimeOverlap(model.StartTime, model.EndTime, model.Id))
+        if (await _mealPeriodRepository.HasTimeOverlap(startTimeSpan, endTimeSpan, model.Id))
             return Result<object>.Failure("Los horarios se superponen con otro período existente", HttpStatusCode.BadRequest);
 
         try

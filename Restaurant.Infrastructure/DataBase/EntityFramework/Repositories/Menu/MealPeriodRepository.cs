@@ -72,7 +72,7 @@ public class MealPeriodRepository : IMealPeriodRepository
         return await _context.MealPeriod.AnyAsync(x => x.NameMealPeriod == mealType && x.Id != id);
     }
 
-    public async Task<bool> HasTimeOverlap(TimeOnly startTime, TimeOnly endTime, int id)
+    public async Task<bool> HasTimeOverlap(TimeSpan startTime, TimeSpan endTime, int id)
     {
         return await _context.MealPeriod.AnyAsync(x => 
             x.Id != id && 

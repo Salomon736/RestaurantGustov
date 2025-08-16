@@ -16,11 +16,11 @@ public class MealPeriodEntity : BaseEntity, IIdentifiable
 
     [Required]
     [Column("startTime")]
-    public TimeOnly StartTime { get; set; }
+    public TimeSpan StartTime { get; set; }
 
     [Required]
     [Column("endTime")]
-    public TimeOnly EndTime { get; set; }
+    public TimeSpan EndTime { get; set; }
 
     [Required]
     [StringLength(20)]

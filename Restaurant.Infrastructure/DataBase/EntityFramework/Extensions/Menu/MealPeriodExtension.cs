@@ -11,8 +11,8 @@ public static class MealPeriodExtension
         {
             Id = model.Id,
             NameMealPeriod = model.NameMealPeriod,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime,
+            StartTime = TimeSpan.Parse(model.StartTime),
+            EndTime = TimeSpan.Parse(model.EndTime),
             Color = model.Color
         };
     }
@@ -22,8 +22,8 @@ public static class MealPeriodExtension
         return new MealPeriodModel(
             entity.Id,
             entity.NameMealPeriod,
-            entity.StartTime,
-            entity.EndTime,
+            entity.StartTime.ToString(@"hh\:mm"),
+            entity.EndTime.ToString(@"hh\:mm"),
             entity.Color
         );
     }
