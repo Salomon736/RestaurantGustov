@@ -41,6 +41,7 @@ public static class RestaurantDependencyInjection
     {
         collection.AddTransient<DishService>();
         collection.AddTransient<MealPeriodService>();
+        collection.AddTransient<MenuService>();
         return collection;
     }
 
