@@ -8,6 +8,8 @@ public class MenuModel : TraceModel
     public DateTime MenuDate { get; private set; }
     public int IdDish { get; private set; }
     public int IdMealPeriod { get; private set; }
+    public DishModel Dish { get; set; }
+    public MealPeriodModel MealPeriod { get; set; }
 
     [JsonConstructor]
     public MenuModel(int id, DateTime menuDate, int idDish, int idMealPeriod)

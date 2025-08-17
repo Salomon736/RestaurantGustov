@@ -48,6 +48,7 @@ public static class RestaurantDependencyInjection
     {
         collection.AddTransient<IDishRepository, DishRepository>();
         collection.AddTransient<IMealPeriodRepository, MealPeriodRepository>();
+        collection.AddTransient<IMenuRepository, MenuRepository>();
         return collection;
     }
 }

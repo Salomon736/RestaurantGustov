@@ -9,12 +9,14 @@ public class MenuDBcontext:DbContext
 {
     public DbSet<DishEntity> Dish { get; set; } 
     public DbSet<MealPeriodEntity> MealPeriod { get; set; } 
+    public DbSet<MenuEntity> Menu { get; set; } 
     public MenuDBcontext(DbContextOptions<MenuDBcontext> options) : base(options) {}
    protected override void OnModelCreating(ModelBuilder entity)
     {
         base.OnModelCreating(entity);
         entity.ApplyConfiguration(new DishConfiguration());
         entity.ApplyConfiguration(new MealPeriodConfiguration());
+        entity.ApplyConfiguration(new MenuConfiguration());
     }
    
     public override int SaveChanges()
