@@ -52,7 +52,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task<bool> IsExistId(int id)
     {
-        return await _dbSet.AnyAsync(x=>x.id == id);
+        return await _dbSet.AnyAsync(x=>x.Id == id);
     }
 
     // public async Task<bool> DeleteHardAsync(int id)

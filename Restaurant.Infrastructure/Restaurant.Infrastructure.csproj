@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DataBase\EntityFramework\Migrations\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Restaurant.Application\Restaurant.Application.csproj" />
     </ItemGroup>
 

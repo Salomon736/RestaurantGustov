@@ -22,4 +22,12 @@ public class Result<T>
 
     public static Result<T> Failure(List<string> errors, HttpStatusCode statusCode)
         => new Result<T>(default, false, StatusMensages.GetMessage((int)statusCode), errors, statusCode);
+    public static Result<T> Failure(string error, HttpStatusCode statusCode)
+        => new Result<T>(
+            default,
+            false,
+            StatusMensages.GetMessage((int)statusCode),
+            new List<string> { error },
+            statusCode
+        );
 }
