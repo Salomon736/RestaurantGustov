@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.MapDishEndpoints();
 app.MapMealPeriodEndpoints();
+app.MapMenuEndpoints();
 app.UseCors("CORSPolicy");
 app.UseMiddleware<MiddlewareException>();
 

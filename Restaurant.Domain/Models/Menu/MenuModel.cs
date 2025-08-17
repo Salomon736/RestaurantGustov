@@ -4,7 +4,7 @@ namespace Restaurant.Domain.Models.Menu;
 
 public class MenuModel : TraceModel
 {
-    public int Id { get; private set; }
+    public int Id { get;  set; }
     public DateTime MenuDate { get; private set; }
     public int IdDish { get; private set; }
     public int IdMealPeriod { get; private set; }
