@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Context.Menu;
+using Restaurant.Infrastructure.DataBase.EntityFramework.Context.Sale;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Entities;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Entities.Menu;
+using Restaurant.Infrastructure.DataBase.EntityFramework.Entities.Sale;
 
 namespace Restaurant.Infrastructure.DataBase.EntityFramework.Context;
 
@@ -10,6 +12,7 @@ public class MenuDBcontext:DbContext
     public DbSet<DishEntity> Dish { get; set; } 
     public DbSet<MealPeriodEntity> MealPeriod { get; set; } 
     public DbSet<MenuEntity> Menu { get; set; } 
+    public DbSet<SaleEntity> Sale { get; set; } 
     public MenuDBcontext(DbContextOptions<MenuDBcontext> options) : base(options) {}
    protected override void OnModelCreating(ModelBuilder entity)
     {
@@ -17,6 +20,7 @@ public class MenuDBcontext:DbContext
         entity.ApplyConfiguration(new DishConfiguration());
         entity.ApplyConfiguration(new MealPeriodConfiguration());
         entity.ApplyConfiguration(new MenuConfiguration());
+        entity.ApplyConfiguration(new SaleConfiguration());
     }
    
     public override int SaveChanges()

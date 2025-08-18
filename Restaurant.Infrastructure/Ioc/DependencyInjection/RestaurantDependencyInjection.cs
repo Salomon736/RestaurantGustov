@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurant.Application.Services.Menu;
 using Restaurant.Domain.Repositories.Menu;
+using Restaurant.Domain.Repositories.Sale;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Context;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Entities.Menu;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Repositories.Menu;
@@ -50,6 +51,7 @@ public static class RestaurantDependencyInjection
         collection.AddTransient<IDishRepository, DishRepository>();
         collection.AddTransient<IMealPeriodRepository, MealPeriodRepository>();
         collection.AddTransient<IMenuRepository, MenuRepository>();
+        collection.AddTransient<ISaleRepository, ISaleRepository>();
         return collection;
     }
 }
