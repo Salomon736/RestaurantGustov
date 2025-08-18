@@ -12,6 +12,11 @@ public class MenuEntity : BaseEntity, IIdentifiable
     [Required]
     [Column("menuDate")]
     public DateTime MenuDate { get; set; }
+    
+    [Required]
+    [Range(0, 1000)] 
+    [Column("quantity")]
+    public int Quantity { get; set; }
 
     [Required]
     [Column("idDish")]
