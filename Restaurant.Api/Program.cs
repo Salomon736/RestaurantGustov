@@ -1,4 +1,5 @@
 using Restaurant.Api.EndPoints.Menu;
+using Restaurant.Api.EndPoints.Sale;
 using Restaurant.Infrastructure.Ioc.DependencyInjection;
 using Restaurant.Api.Middleware;
 
@@ -40,6 +41,7 @@ app.UseRouting();
 app.MapDishEndpoints();
 app.MapMealPeriodEndpoints();
 app.MapMenuEndpoints();
+app.MapSaleEndpoints();
 app.UseCors("CORSPolicy");
 app.UseMiddleware<MiddlewareException>();
 
