@@ -35,7 +35,7 @@ public class DishService
                 if (!await _dishRepository.IsExistId(model.Id))
                     return Result<object>.Failure("El plato no existe", HttpStatusCode.NotFound);
 
-                savedDish = await _dishRepository.UpdateAsync(model);
+                savedDish = await _dishRepository.InsertAsync(model);
                 return Result<object>.Success(new { id = savedDish.Id, message = "Plato actualizado exitosamente" }, HttpStatusCode.OK);
             }
         }
