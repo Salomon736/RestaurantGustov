@@ -99,4 +99,16 @@ public class MenuService
             return Result<List<MenuModel>>.Failure(ex.Message, HttpStatusCode.InternalServerError);
         }
     }
+    public async Task<Result<List<MenuModel>>> GetMenuByDateAndMealPeriod(DateTime date, int idMealPeriod)
+    {
+        try
+        {
+            var menus = await _menuRepository.GetMenuByDateAndMealPeriod(date, idMealPeriod);
+            return Result<List<MenuModel>>.Success(menus, HttpStatusCode.OK);
+        }
+        catch (Exception ex)
+        {
+            return Result<List<MenuModel>>.Failure(ex.Message, HttpStatusCode.InternalServerError);
+        }
+    }
 }

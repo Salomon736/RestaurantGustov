@@ -11,6 +11,7 @@ public static class MenuExtension
         {
             Id = model.Id,
             MenuDate = model.MenuDate,
+            Quantity = model.Quantity,
             IdDish = model.IdDish,
             IdMealPeriod = model.IdMealPeriod
         };
@@ -18,7 +19,7 @@ public static class MenuExtension
 
     public static MenuModel ToModel(this MenuEntity entity)
     {
-        var menuModel = new MenuModel(entity.Id, entity.MenuDate, entity.IdDish, entity.IdMealPeriod);
+        var menuModel = new MenuModel(entity.Id, entity.MenuDate, entity.Quantity, entity.IdDish, entity.IdMealPeriod);
         if (entity.Dish != null)
         {
             menuModel.Dish = new DishModel(

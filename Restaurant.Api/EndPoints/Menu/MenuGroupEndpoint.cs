@@ -51,5 +51,10 @@ public static class MenuGroupEndpoint
             (MenuService service, DateTime date) =>
                 service.GetMenuByDate(date).ToApiResult()
         );
+        groupBuilder.MapGet(
+            "/date/{date:datetime}/period/{idMealPeriod:int}",
+            (MenuService service, DateTime date, int idMealPeriod) =>
+                service.GetMenuByDateAndMealPeriod(date, idMealPeriod).ToApiResult()
+        );
     }
 }
