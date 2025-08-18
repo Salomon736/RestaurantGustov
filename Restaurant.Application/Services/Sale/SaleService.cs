@@ -10,11 +10,13 @@ public class SaleService
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMenuRepository _menuRepository;
+    private readonly IMealPeriodRepository _mealPeriodRepository;
 
-    public SaleService(ISaleRepository saleRepository, IMenuRepository menuRepository)
+    public SaleService(ISaleRepository saleRepository, IMenuRepository menuRepository, IMealPeriodRepository mealPeriodRepository)
     {
         _saleRepository = saleRepository;
         _menuRepository = menuRepository;
+        _mealPeriodRepository = mealPeriodRepository;
     }
 
     public async Task<Result<object>> SaveSale(SaleModel model)
@@ -25,11 +27,36 @@ public class SaleService
         if (!await _menuRepository.IsExistId(model.IdMenu))
             return Result<object>.Failure("El menú seleccionado no existe", HttpStatusCode.BadRequest);
 
-        if (!await _saleRepository.ValidateMenuAvailability(model.IdMenu, model.QuantitySold))
-            return Result<object>.Failure("No hay suficiente cantidad disponible en el menú", HttpStatusCode.BadRequest);
-
         var menu = await _menuRepository.GetByIdAsync(model.IdMenu);
-        if (menu != null && menu.Dish != null)
+        if (menu == null)
+            return Result<object>.Failure("El menú seleccionado no existe", HttpStatusCode.BadRequest);
+
+        var mealPeriod = await _mealPeriodRepository.GetByIdAsync(menu.IdMealPeriod);
+        if (mealPeriod != null)
+        {
+            var currentTime = DateTime.Now.TimeOfDay;
+            if (TimeSpan.TryParse(mealPeriod.EndTime, out var endTimeSpan))
+            {
+                if (currentTime > endTimeSpan)
+                {
+                    return Result<object>.Failure(
+                        $"No se puede realizar la venta. El horario de {mealPeriod.NameMealPeriod} ya terminó a las {endTimeSpan}",
+                        HttpStatusCode.BadRequest
+                    );
+                }
+            }
+            else
+            {
+                return Result<object>.Failure(
+                    $"El formato de hora de fin del periodo {mealPeriod.NameMealPeriod} es inválido.",
+                    HttpStatusCode.InternalServerError
+                );
+            }
+        }
+        if (menu.Quantity < model.QuantitySold)
+            return Result<object>.Failure($"No hay suficiente cantidad disponible. Stock actual: {menu.Quantity}, solicitado: {model.QuantitySold}", HttpStatusCode.BadRequest);
+
+        if (menu.Dish != null)
         {
             var expectedTotal = menu.Dish.Price * model.QuantitySold;
             if (Math.Abs(model.TotalPrice - expectedTotal) > 0.01m)
@@ -39,7 +66,11 @@ public class SaleService
         try
         {
             await _saleRepository.InsertAsync(model);
-            return Result<object>.Success(new { }, HttpStatusCode.OK);
+            
+            menu.Quantity -= model.QuantitySold;
+            await _menuRepository.UpdateAsync(menu);
+
+            return Result<object>.Success(new { message = "Venta registrada exitosamente", stockRestante = menu.Quantity }, HttpStatusCode.OK);
         }
         catch (Exception ex)
         {

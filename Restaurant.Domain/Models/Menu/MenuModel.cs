@@ -6,7 +6,7 @@ public class MenuModel : TraceModel
 {
     public int Id { get;  set; }
     public DateTime MenuDate { get; private set; }
-    public int Quantity { get; private set; }
+    public int Quantity { get;  set; }
     public int IdDish { get; private set; }
     public int IdMealPeriod { get; private set; }
     public DishModel Dish { get; set; }
