@@ -1,9 +1,30 @@
-# SUINT.Hub.Restaurant.Api
-Restaurant configuration moduleee
+# Restaurant Gustov Backend - API de Gestión
+
+API REST para sistema de gestión de restaurantes con módulos de menús, ventas y reportes.
+
+# Características
+Gestión de Platos y Períodos: CRUD de platos y horarios de comida
+
+Administración de Menús: Creación de menús diarios
+
+Registro de Ventas: Sistema de ventas con control de stock
+
+Reportes: Endpoints para análisis de ventas con filtros
+
+# Tecnologías
+.NET SDK: 6.0.422
+
+Entity Framework Core: 6.0.32
+
+SQL Server: Compatible con versiones 2016+
+
+Swagger/OpenAPI
+
+Clean Architecture
 
 ## Explicación generals
 
-Modulo de Academic desarrollado en Clean architecture que tiene la estructura como podemos ver en https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html. 
+Modulo desarrollado en Clean architecture que tiene la estructura como podemos ver en https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html. 
 Clean Architecture es un enfoque de diseño de software que busca separar la lógica de negocio de los detalles de la implementación técnica. Su objetivo es crear una arquitectura sólida y mantenible que permita una fácil evolución y extensión del sistema con el tiempo.
 
 Proyecto dividido el código en capas independientes de la implementación técnica, lo que permite una mayor independencia de la administración de la infraestructura y los detalles de implementación. Esto mejora la legibilidad del código y facilita la identificación de las partes de la aplicación que deben modificarse para efectuar cambios.
@@ -74,8 +95,4 @@ Cada uno estos componentes tiene una función y no deben mezclarse entre ellos. 
 
 ![imagen arquitectura](README/arquitectura.png)
 
-La imagen describe el proceso de obtención de información y como esta se transmite a lo largo de los modulos. 
-
-## Autor SM
-
-Equipo Desarrollo TI
+La imagen describe el proceso de obtención de información y como esta se transmite a lo largo de los modulos.
