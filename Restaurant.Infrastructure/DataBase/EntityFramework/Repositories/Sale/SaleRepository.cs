@@ -103,15 +103,25 @@ public class SaleRepository : ISaleRepository
         return entities.ToModelList();
     }
 
-    public async Task<List<SaleModel>> GetSalesByMenu(int idMenu)
+    public async Task<List<SaleModel>> GetSalesByMealPeriod(int idMealPeriod, DateTime? startDate = null, DateTime? endDate = null)
     {
-        var entities = await _context.Sale
+        var query = _context.Sale
             .Include(s => s.Menu)
-                .ThenInclude(m => m.Dish)
+            .ThenInclude(m => m.Dish)
             .Include(s => s.Menu)
-                .ThenInclude(m => m.MealPeriod)
-            .Where(x => x.IdMenu == idMenu)
-            .ToListAsync();
+            .ThenInclude(m => m.MealPeriod)
+            .Where(x => x.Menu.IdMealPeriod == idMealPeriod);
+        if (startDate.HasValue)
+        {
+            query = query.Where(x => x.createdAt.Date >= startDate.Value.Date);
+        }
+    
+        if (endDate.HasValue)
+        {
+            query = query.Where(x => x.createdAt.Date <= endDate.Value.Date);
+        }
+
+        var entities = await query.ToListAsync();
         return entities.ToModelList();
     }
 
@@ -140,4 +150,22 @@ public class SaleRepository : ISaleRepository
 
         return (totalSold + quantityRequested) <= menu.Quantity;
     }
+    public async Task<decimal> GetTotalSalesByMealPeriod(int idMealPeriod, DateTime? startDate = null, DateTime? endDate = null)
+    {
+        var query = _context.Sale
+            .Where(x => x.Menu.IdMealPeriod == idMealPeriod);
+
+        if (startDate.HasValue)
+        {
+            query = query.Where(x => x.createdAt.Date >= startDate.Value.Date);
+        }
+    
+        if (endDate.HasValue)
+        {
+            query = query.Where(x => x.createdAt.Date <= endDate.Value.Date);
+        }
+
+        return await query.SumAsync(x => x.TotalPrice);
+    }
+
 }

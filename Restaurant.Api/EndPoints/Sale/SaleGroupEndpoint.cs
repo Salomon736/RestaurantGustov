@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.Api.EndPoints.Common;
 using Restaurant.Application.Services.Sale;
 using Restaurant.Domain.Models.Sale;
@@ -59,9 +60,9 @@ public static class SaleGroupEndpoint
         );
 
         groupBuilder.MapGet(
-            "/menu/{idMenu:int}",
-            (SaleService service, int idMenu) =>
-                service.GetSalesByMenu(idMenu).ToApiResult()
+            "/meal-period/{idMealPeriod:int}",
+            (SaleService service, int idMealPeriod, [FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null) =>
+                service.GetSalesByMealPeriod(idMealPeriod, startDate, endDate).ToApiResult()
         );
 
         groupBuilder.MapGet(
@@ -74,6 +75,11 @@ public static class SaleGroupEndpoint
             "/total/date-range/{startDate:datetime}/{endDate:datetime}",
             (SaleService service, DateTime startDate, DateTime endDate) =>
                 service.GetTotalSalesByDateRange(startDate, endDate).ToApiResult()
+        );
+        groupBuilder.MapGet(
+            "/total/meal-period/{idMealPeriod:int}",
+            (SaleService service, int idMealPeriod, [FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null) =>
+                service.GetTotalSalesByMealPeriod(idMealPeriod, startDate, endDate).ToApiResult()
         );
     }
 }
