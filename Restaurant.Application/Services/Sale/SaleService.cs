@@ -34,22 +34,35 @@ public class SaleService
         var mealPeriod = await _mealPeriodRepository.GetByIdAsync(menu.IdMealPeriod);
         if (mealPeriod != null)
         {
-            var currentTime = DateTime.Now.TimeOfDay;
-            if (TimeSpan.TryParse(mealPeriod.EndTime, out var endTimeSpan))
+            var menuDate = menu.MenuDate.Date;
+            var currentDate = DateTime.Now.Date;
+            
+            if (menuDate == currentDate) // Solo validar hora si es para hoy
             {
-                if (currentTime > endTimeSpan)
+                if (TimeSpan.TryParse(mealPeriod.EndTime, out var endTimeSpan))
+                {
+                    var currentTime = DateTime.Now.TimeOfDay;
+                    if (currentTime > endTimeSpan)
+                    {
+                        return Result<object>.Failure(
+                            $"No se puede realizar la venta. El horario de {mealPeriod.NameMealPeriod} ya terminó a las {endTimeSpan}",
+                            HttpStatusCode.BadRequest
+                        );
+                    }
+                }
+                else
                 {
                     return Result<object>.Failure(
-                        $"No se puede realizar la venta. El horario de {mealPeriod.NameMealPeriod} ya terminó a las {endTimeSpan}",
-                        HttpStatusCode.BadRequest
+                        $"El formato de hora de fin del periodo {mealPeriod.NameMealPeriod} es inválido.",
+                        HttpStatusCode.InternalServerError
                     );
                 }
             }
-            else
+            else if (menuDate < currentDate) // Validar que no sea una fecha pasada
             {
                 return Result<object>.Failure(
-                    $"El formato de hora de fin del periodo {mealPeriod.NameMealPeriod} es inválido.",
-                    HttpStatusCode.InternalServerError
+                    $"No se puede realizar la venta. La fecha del menú ({menuDate:yyyy-MM-dd}) ya pasó.",
+                    HttpStatusCode.BadRequest
                 );
             }
         }
