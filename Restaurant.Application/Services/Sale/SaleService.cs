@@ -37,7 +37,7 @@ public class SaleService
             var menuDate = menu.MenuDate.Date;
             var currentDate = DateTime.Now.Date;
             
-            if (menuDate == currentDate) // Solo validar hora si es para hoy
+            if (menuDate == currentDate)
             {
                 if (TimeSpan.TryParse(mealPeriod.EndTime, out var endTimeSpan))
                 {
@@ -58,7 +58,7 @@ public class SaleService
                     );
                 }
             }
-            else if (menuDate < currentDate) // Validar que no sea una fecha pasada
+            else if (menuDate < currentDate)
             {
                 return Result<object>.Failure(
                     $"No se puede realizar la venta. La fecha del menú ({menuDate:yyyy-MM-dd}) ya pasó.",
@@ -165,14 +165,17 @@ public class SaleService
         }
     }
 
-    public async Task<Result<List<SaleModel>>> GetSalesByMenu(int idMenu)
+    public async Task<Result<List<SaleModel>>> GetSalesByMealPeriod(int idMealPeriod, DateTime? startDate = null, DateTime? endDate = null)
     {
         try
         {
-            if (!await _menuRepository.IsExistId(idMenu))
-                return Result<List<SaleModel>>.Failure("El menú especificado no existe", HttpStatusCode.BadRequest);
+            if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+                return Result<List<SaleModel>>.Failure("La fecha de inicio no puede ser mayor a la fecha de fin", HttpStatusCode.BadRequest);
 
-            var sales = await _saleRepository.GetSalesByMenu(idMenu);
+            if (!await _mealPeriodRepository.IsExistId(idMealPeriod))
+                return Result<List<SaleModel>>.Failure("El período de comida especificado no existe", HttpStatusCode.BadRequest);
+
+            var sales = await _saleRepository.GetSalesByMealPeriod(idMealPeriod, startDate, endDate);
             return Result<List<SaleModel>>.Success(sales, HttpStatusCode.OK);
         }
         catch (Exception ex)
@@ -209,4 +212,23 @@ public class SaleService
             return Result<decimal>.Failure(ex.Message, HttpStatusCode.InternalServerError);
         }
     }
+    public async Task<Result<decimal>> GetTotalSalesByMealPeriod(int idMealPeriod, DateTime? startDate = null, DateTime? endDate = null)
+    {
+        try
+        {
+            if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+                return Result<decimal>.Failure("La fecha de inicio no puede ser mayor a la fecha de fin", HttpStatusCode.BadRequest);
+
+            if (!await _mealPeriodRepository.IsExistId(idMealPeriod))
+                return Result<decimal>.Failure("El período de comida especificado no existe", HttpStatusCode.BadRequest);
+
+            var total = await _saleRepository.GetTotalSalesByMealPeriod(idMealPeriod, startDate, endDate);
+            return Result<decimal>.Success(total, HttpStatusCode.OK);
+        }
+        catch (Exception ex)
+        {
+            return Result<decimal>.Failure(ex.Message, HttpStatusCode.InternalServerError);
+        }
+    }
+
 }
