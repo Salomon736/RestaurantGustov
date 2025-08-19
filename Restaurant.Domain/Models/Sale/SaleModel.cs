@@ -6,17 +6,17 @@ namespace Restaurant.Domain.Models.Sale;
 public class SaleModel : TraceModel
 {
     public int Id { get; set; }
-    public DateTime SaleDate { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public int IdMenu { get; private set; }
     public int QuantitySold { get; private set; }
     public decimal TotalPrice { get; private set; }
     public MenuModel Menu { get; set; }
 
     [JsonConstructor]
-    public SaleModel(int id, DateTime saleDate, int idMenu, int quantitySold, decimal totalPrice)
+    public SaleModel(int id, DateTime createdAt, int idMenu, int quantitySold, decimal totalPrice)
     {
-        if (saleDate.Date > DateTime.Today)
-            AddError(new Exception("La fecha de venta no puede ser futura"));
+        // if (saleDate.Date > DateTime.Today)
+        //     AddError(new Exception("La fecha de venta no puede ser futura"));
         
         if (quantitySold <= 0)
             AddError(new Exception("La cantidad vendida debe ser mayor a 0"));
@@ -34,7 +34,7 @@ public class SaleModel : TraceModel
             AddError(new Exception("El precio total no puede ser mayor a 999,999.99"));
 
         Id = id;
-        SaleDate = saleDate.Date;
+        CreatedAt = createdAt;
         IdMenu = idMenu;
         QuantitySold = quantitySold;
         TotalPrice = totalPrice;

@@ -11,7 +11,7 @@ public static class SaleExtension
         return new SaleEntity
         {
             Id = model.Id,
-            SaleDate = model.SaleDate,
+            // SaleDate = model.SaleDate,
             IdMenu = model.IdMenu,
             QuantitySold = model.QuantitySold,
             TotalPrice = model.TotalPrice
@@ -22,7 +22,7 @@ public static class SaleExtension
     {
         var saleModel = new SaleModel(
             entity.Id, 
-            entity.SaleDate, 
+            entity.createdAt, 
             entity.IdMenu, 
             entity.QuantitySold, 
             entity.TotalPrice

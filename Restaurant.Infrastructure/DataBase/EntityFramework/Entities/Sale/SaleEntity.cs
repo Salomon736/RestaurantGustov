@@ -12,10 +12,6 @@ public class SaleEntity : BaseEntity, IIdentifiable
     public int Id { get; set; }
     
     [Required]
-    [Column("saleDate")]
-    public DateTime SaleDate { get; set; }
-    
-    [Required]
     [Column("idMenu")]
     public int IdMenu { get; set; }
     

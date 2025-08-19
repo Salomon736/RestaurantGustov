@@ -11,6 +11,7 @@ using Restaurant.Domain.Repositories.Sale;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Context;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Entities.Menu;
 using Restaurant.Infrastructure.DataBase.EntityFramework.Repositories.Menu;
+using Restaurant.Infrastructure.DataBase.EntityFramework.Repositories.Sale;
 
 namespace Restaurant.Infrastructure.Ioc.DependencyInjection;
 
@@ -53,7 +54,7 @@ public static class RestaurantDependencyInjection
         collection.AddTransient<IDishRepository, DishRepository>();
         collection.AddTransient<IMealPeriodRepository, MealPeriodRepository>();
         collection.AddTransient<IMenuRepository, MenuRepository>();
-        collection.AddTransient<ISaleRepository, ISaleRepository>();
+        collection.AddTransient<ISaleRepository, SaleRepository>();
         return collection;
     }
 }

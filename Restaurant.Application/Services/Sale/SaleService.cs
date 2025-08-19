@@ -68,7 +68,7 @@ public class SaleService
             await _saleRepository.InsertAsync(model);
             
             menu.Quantity -= model.QuantitySold;
-            await _menuRepository.UpdateAsync(menu);
+            await _menuRepository.InsertAsync(menu);
 
             return Result<object>.Success(new { message = "Venta registrada exitosamente", stockRestante = menu.Quantity }, HttpStatusCode.OK);
         }

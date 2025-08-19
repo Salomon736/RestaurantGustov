@@ -86,7 +86,7 @@ public class SaleRepository : ISaleRepository
                 .ThenInclude(m => m.Dish)
             .Include(s => s.Menu)
                 .ThenInclude(m => m.MealPeriod)
-            .Where(x => x.SaleDate.Date == date.Date)
+            .Where(x => x.createdAt.Date == date.Date)
             .ToListAsync();
         return entities.ToModelList();
     }
@@ -98,7 +98,7 @@ public class SaleRepository : ISaleRepository
                 .ThenInclude(m => m.Dish)
             .Include(s => s.Menu)
                 .ThenInclude(m => m.MealPeriod)
-            .Where(x => x.SaleDate.Date >= startDate.Date && x.SaleDate.Date <= endDate.Date)
+            .Where(x => x.createdAt.Date >= startDate.Date && x.createdAt.Date <= endDate.Date)
             .ToListAsync();
         return entities.ToModelList();
     }
@@ -118,14 +118,14 @@ public class SaleRepository : ISaleRepository
     public async Task<decimal> GetTotalSalesByDate(DateTime date)
     {
         return await _context.Sale
-            .Where(x => x.SaleDate.Date == date.Date)
+            .Where(x => x.createdAt.Date == date.Date)
             .SumAsync(x => x.TotalPrice);
     }
 
     public async Task<decimal> GetTotalSalesByDateRange(DateTime startDate, DateTime endDate)
     {
         return await _context.Sale
-            .Where(x => x.SaleDate.Date >= startDate.Date && x.SaleDate.Date <= endDate.Date)
+            .Where(x => x.createdAt.Date >= startDate.Date && x.createdAt.Date <= endDate.Date)
             .SumAsync(x => x.TotalPrice);
     }
 
@@ -135,7 +135,7 @@ public class SaleRepository : ISaleRepository
         if (menu == null) return false;
 
         var totalSold = await _context.Sale
-            .Where(x => x.IdMenu == idMenu && x.SaleDate.Date == DateTime.Today)
+            .Where(x => x.IdMenu == idMenu && x.createdAt.Date == DateTime.Today)
             .SumAsync(x => x.QuantitySold);
 
         return (totalSold + quantityRequested) <= menu.Quantity;

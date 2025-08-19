@@ -13,11 +13,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<SaleEntity>
         
         builder.Property(s => s.Id)
             .HasColumnName("id");
-
-        builder.Property(s => s.SaleDate)
-            .HasColumnName("saleDate")
-            .IsRequired();
-
+        
         builder.Property(s => s.IdMenu)
             .HasColumnName("idMenu")
             .IsRequired();
